@@ -9,7 +9,6 @@ function loadAllPosts(){
     dataType: "json",
     data: {functionname: "loadAllPosts"},
     success: function(obj, textStatus){
-      console.log(obj)
       showPreview(obj);
     },
     error: function(jqXHR, exception, status){
@@ -82,17 +81,18 @@ function linkEventListener(ele){
 }
 
 function showPreview(obj){
-  let tmp = document.getElementsByClassName('posts-hidden')[0].cloneNode(true);
-  tmp.className= "posts";
-  tmp.querySelectorAll(".title")[0].textContent = obj[0].title;
-  console.log(tmp.querySelectorAll(".loadPost")[0]);
-  tmp.querySelectorAll(".loadPost")[0].addEventListener("click", function(){
-    hideAllPreviews();
-    displayPost(this.parentNode.parentNode.getAttribute("data-id"))
-  });
-  tmp.setAttribute("data-id", ""+obj[0].id);
-  tmp.querySelectorAll(".preview")[0].getElementsByTagName("p")[0].textContent = obj[0].prev;
-  document.getElementsByClassName("center")[0].appendChild(tmp);
+  for(row of obj){
+    let tmp = document.getElementsByClassName('posts-hidden')[0].cloneNode(true);
+    tmp.className= "posts";
+    tmp.querySelectorAll(".title")[0].textContent = row.title;
+    tmp.querySelectorAll(".loadPost")[0].addEventListener("click", function(){
+      hideAllPreviews();
+      displayPost(this.parentNode.parentNode.getAttribute("data-id"))
+    });
+    tmp.setAttribute("data-id", ""+row.id);
+    tmp.querySelectorAll(".preview")[0].getElementsByTagName("p")[0].textContent = row.prev;
+    document.getElementsByClassName("center")[0].appendChild(tmp);
+  }
 }
 
 function showPost(obj){
@@ -109,7 +109,6 @@ function showPost(obj){
 
 function hidePosts(){
   let posts = document.getElementsByClassName("complete-post");
-  console.log(posts)
   for (post of posts){
     if(!post.classList.contains("complete-post-hidden"))
       post.remove()
@@ -117,7 +116,8 @@ function hidePosts(){
 }
 
 function showHiddenPosts(){
-  for (ele of document.getElementsByClassName("hide")){
+  for (ele of document.getElementsByClassName("posts")){
     ele.classList.remove("hide")
+
   }
 }

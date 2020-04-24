@@ -1,11 +1,10 @@
 <?php
   include 'dbConnector.php';
   class Post{
-    private $conn;
+    public $db;
     function __construct(){
-      #$db = new DBConnector("postgres", "postdb");
-      $db = new DBConnector();
-      $this->conn = $db->startConnection();
+      $this->db = new DBConnector("postgres", "blogdb");
+      $this->conn = $this->db->startConnection();
     }
 
     public function loadPostPrev(){
@@ -17,9 +16,8 @@
     public function loadPost($id){
       # Noch injection abfangen!!!!
       $id = intval($id);
-      $str = "SELECT * from post where id =".strval($id);
-      $query = pg_query($this->conn, $str);
-      $result = pg_fetch_all($query);
+      pg_prepare($this->conn, 'loadPost', "SELECT * from post where id = $1");
+      $result = pg_fetch_all(pg_execute($this->conn, 'loadPost', array(strval($id))));
       return json_encode($result);
     }
   }
@@ -30,5 +28,6 @@
     }else if($_POST["functionname"] == "loadPost"){
       echo $post->loadPost($_POST["id"]);
     }
+    $post->db->closeConnection();
   }
 ?>

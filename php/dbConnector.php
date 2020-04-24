@@ -1,24 +1,32 @@
 <?php
 class DBConnector{
-	private $conn;
 	private $dbname;
 	private $user;
 	private $db_connection;
 
-	function __construct(){
-		$user = "postgres";
-		$dbname = "blogdb";
-		#$db_connection = pg_connect("host=localhost dbname=blogdb user=postgres")
-		#$this->startConnection($hostname, $user, $dbname);
+	function __construct($usr, $dbn){
+		#$this->user = $usr;
+		#$this->dbname = $dbn;
+		$this->setDBName($dbn);
+		$this->setUser($usr);
 	}
 
 	public function startConnection(){
-		$this->db_connection = pg_connect("dbname=blogdb user=postgres");
+		$loginString = "dbname=".$this->dbname." user=".$this->user;
+		#$this->db_connection = pg_connect("dbname=blogdb user=postgres");
+		$this->db_connection = pg_connect($loginString);
 		return $this->db_connection;
 	}
 
-	private function closeConnection(){
+	public function closeConnection(){
 		pg_close($this->db_connection);
 	}
 
+	private function setDBName($name){
+		$this->dbname = $name;
+	}
+
+	private function setUser($name){
+		$this->user = $name;
+	}
 }
