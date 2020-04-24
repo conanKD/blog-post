@@ -1,0 +1,10 @@
+.center{
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  background-color: gainsboro;
+}
+
+.posts{
+  background-color: #f5f2f2;
+}
