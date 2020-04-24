@@ -8,3 +8,15 @@
 .posts{
   background-color: #f5f2f2;
 }
+
+.posts-hidden{
+  display: none;
+}
+
+.hide {
+  display:none;
+}
+
+.complete-post-hidden{
+  display:none;
+}

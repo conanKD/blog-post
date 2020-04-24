@@ -14,8 +14,13 @@
       return json_encode($result);
     }
 
-    public function loadPosts($id){
-      return;
+    public function loadPost($id){
+      # Noch injection abfangen!!!!
+      $id = intval($id);
+      $str = "SELECT * from post where id =".strval($id);
+      $query = pg_query($this->conn, $str);
+      $result = pg_fetch_all($query);
+      return json_encode($result);
     }
   }
   if($_POST["functionname"]){
